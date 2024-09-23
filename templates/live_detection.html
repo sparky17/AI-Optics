@@ -1,0 +1,13 @@
+<!-- templates/live_detection.html -->
+{% extends 'base.html' %}
+
+{% block title %}Live Detection{% endblock %}
+
+{% block content %}
+   
+
+    <h1>Live Detection</h1>
+    <img src="{{ url_for('video_feed') }}" width="640" height="480">
+
+
+{% endblock %}

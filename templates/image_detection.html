@@ -1,0 +1,45 @@
+<!-- templates/image_detection.html -->
+{% extends 'base.html' %}
+
+{% block title %}Image Detection{% endblock %}
+
+{% block content %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Detection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        h1 {
+            margin-top: 20px;
+        }
+        #upload-form {
+            margin-top: 20px;
+        }
+        #processed-image {
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Image Detection</h1>
+    
+    <form id="upload-form" action="/image_detection" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" accept="image/*" required>
+        <button type="submit">Upload Image</button>
+    </form>
+
+    {% if processed_image %}
+    <div id="processed-image">
+        <h2>Processed Image</h2>
+        <img src="data:image/jpeg;base64,{{ processed_image }}" width="640" height="480" />
+    </div>
+    {% endif %}
+
+{% endblock %}

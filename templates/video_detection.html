@@ -1,0 +1,49 @@
+<!-- templates/video_detection.html -->
+{% extends 'base.html' %}
+
+{% block title %}Video Detection{% endblock %}
+
+{% block content %}
+    
+<h1>Object Detection</h1>
+    
+    <form action="/video_detection" method="post" enctype="multipart/form-data" id="uploadForm">
+        <input type="file" name="file" accept="video/*">
+        <button type="submit" id="uploadButton">Upload Video</button>
+    </form>
+
+    <div id="result" style="display:none;">
+        <h2>Object Detection Result</h2>
+        <video id="outputVideo" width="640" height="480" controls>
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <script>
+        document.getElementById("uploadForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            document.getElementById("uploadButton").disabled = true;
+            var formData = new FormData(this);
+            fetch("/video_detection", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById("uploadForm").style.display = "none";
+                    document.getElementById("result").style.display = "block";
+                    document.getElementById("outputVideo").src = data.output_video;
+                } else {
+                    alert("Error: " + data.error);
+                    document.getElementById("uploadButton").disabled = false;
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                document.getElementById("uploadButton").disabled = false;
+            });
+        });
+    </script>
+
+{% endblock %}
